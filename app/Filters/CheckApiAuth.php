@@ -28,7 +28,7 @@ class CheckApiAuth implements FilterInterface
         helper('auth');
         if(!auth('tokens')->loggedIn())
         {
-            return redirect()->to('logged-out');
+            return redirect()->to('/api/logged-out');
         }
     }
 

@@ -1,37 +1,45 @@
 <?php
 
-namespace Tests\Support\Database\Migrations;
+use CodeIgniter\Test\CIUnitTestCase;
+use CodeIgniter\Test\DatabaseTestTrait;
+use Tests\Support\Database\Seeds\ExampleSeeder;
+use Tests\Support\Models\ExampleModel;
 
-use CodeIgniter\Database\Migration;
-
-class ExampleMigration extends Migration
+/**
+ * @internal
+ */
+final class ExampleDatabaseTest extends CIUnitTestCase
 {
-    protected $DBGroup = 'tests';
+    use DatabaseTestTrait;
 
-    public function up()
+    protected $seed = ExampleSeeder::class;
+
+    public function testModelFindAll()
     {
-        $this->forge->addField('id');
-        $this->forge->addField([
-            'name'       => ['type' => 'varchar', 'constraint' => 31],
-            'uid'        => ['type' => 'varchar', 'constraint' => 31],
-            'class'      => ['type' => 'varchar', 'constraint' => 63],
-            'icon'       => ['type' => 'varchar', 'constraint' => 31],
-            'summary'    => ['type' => 'varchar', 'constraint' => 255],
-            'created_at' => ['type' => 'datetime', 'null' => true],
-            'updated_at' => ['type' => 'datetime', 'null' => true],
-            'deleted_at' => ['type' => 'datetime', 'null' => true],
-        ]);
+        $model = new ExampleModel();
 
-        $this->forge->addKey('name');
-        $this->forge->addKey('uid');
-        $this->forge->addKey(['deleted_at', 'id']);
-        $this->forge->addKey('created_at');
+        // Get every row created by ExampleSeeder
+        $objects = $model->findAll();
 
-        $this->forge->createTable('factories');
+        // Make sure the count is as expected
+        $this->assertCount(3, $objects);
     }
 
-    public function down()
+    public function testSoftDeleteLeavesRow()
     {
-        $this->forge->dropTable('factories');
+        $model = new ExampleModel();
+        $this->setPrivateProperty($model, 'useSoftDeletes', true);
+        $this->setPrivateProperty($model, 'tempUseSoftDeletes', true);
+
+        $object = $model->first();
+        $model->delete($object->id);
+
+        // The model should no longer find it
+        $this->assertNull($model->find($object->id));
+
+        // ... but it should still be in the database
+        $result = $model->builder()->where('id', $object->id)->get()->getResult();
+
+        $this->assertCount(1, $result);
     }
 }
