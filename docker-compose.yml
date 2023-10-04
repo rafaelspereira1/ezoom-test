@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.1.0
+    container_name: ezoom-test-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ezoom-test
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - ezoom-test-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: ezoom-phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+    networks:
+      - ezoom-test-network
+
+networks:
+  ezoom-test-network:
