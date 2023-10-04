@@ -28,13 +28,15 @@ sudo docker-compose up -d
 composer install
 ```
 
-3.Rode o Code Igniter
+3. Copie o arquivo env e altere seu nome para .env
+
+4.Rode o Code Igniter
 
 ```bash
 php spark serve
 ```
 
-4.Utilize a collection do postman para testar a api
+5.Utilize a collection do postman para testar a api
 
 ```bash
 https://www.postman.com/rafaelspereira11/workspace/ezoom-test
