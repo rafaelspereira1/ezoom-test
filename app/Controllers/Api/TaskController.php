@@ -14,7 +14,7 @@ class TaskController extends BaseController
 
     public function __construct()
     {
-        $this->model = new TaskModel(); // Initialize the model
+        $this->model = new TaskModel(); 
     }
 
     protected $format = 'json';

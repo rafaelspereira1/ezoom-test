@@ -1,62 +1,47 @@
-# CodeIgniter 4 Application Starter
+# Ezoom Test Técnico com CodeIgniter 4
 
-## What is CodeIgniter?
+## Requisitos do teste
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+Use o framework CodeIgniter para criar a API.
+Utilize um banco de dados MySQL para armazenar as tarefas.
+Implemente autenticação básica.
+Utilize Docker para conteinerização do projeto.
+A API deve fornecer endpoints para realizar as seguintes operações:
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+Listar todas as tarefas.
+Obter os detalhes de uma tarefa específica.
+Criar uma nova tarefa.
+Atualizar uma tarefa existente.
+Excluir uma tarefa.
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## Como rodar o projeto
 
-The user guide corresponding to the latest version of the framework can be found
-[here](https://codeigniter4.github.io/userguide/).
+1. Rode o banco de dados via container com o Docker
 
-## Installation & updates
+```bash
+sudo docker-compose up -d
+```
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+2.Instale as dependencias do projeto
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+```bash
+composer install
+```
 
-## Setup
+3.Rode o Code Igniter
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+```bash
+php spark serve
+```
 
-## Important Change with index.php
+4.Utilize a collection do postman para testar a api
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+```bash
+https://www.postman.com/rafaelspereira11/workspace/ezoom-test
+```
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+## Observações
 
-**Please** read the user guide for a better explanation of how CI4 works!
+Primeiro se deve criar um usuario para poder utilizar a api, para isso basta fazer uma requisição POST para o endpoint api/register como demonstrado na collection do postman. Após isso se deve utilizar o token de autenticação gerado para poder utilizar os demais endpoints da api.
 
-## Repository Management
-
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
-
-## Server Requirements
-
-PHP version 7.4 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+Este projeto utiliza o conceito de bearer token como metodo de autenticação.
