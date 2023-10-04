@@ -28,15 +28,21 @@ sudo docker-compose up -d
 composer install
 ```
 
-3. Copie o arquivo env e altere seu nome para .env
+3.Copie o arquivo env e altere seu nome para .env
 
-4.Rode o Code Igniter
+4.Rode as migrations para criar as tabelas no banco de dados
+
+```bash
+php spark migrate -all
+```
+
+5.Rode o Code Igniter
 
 ```bash
 php spark serve
 ```
 
-5.Utilize a collection do postman para testar a api
+6.Utilize a collection do postman para testar a api
 
 ```bash
 https://www.postman.com/rafaelspereira11/workspace/ezoom-test
@@ -44,6 +50,6 @@ https://www.postman.com/rafaelspereira11/workspace/ezoom-test
 
 ## Observações
 
-Primeiro se deve criar um usuario para poder utilizar a api, para isso basta fazer uma requisição POST para o endpoint api/register como demonstrado na collection do postman. Após isso se deve utilizar o token de autenticação gerado para poder utilizar os demais endpoints da api.
+Primeiro se deve criar um usuario para poder utilizar a api, para isso basta fazer uma requisição POST para o endpoint register como demonstrado na collection do postman. Após isso se deve utilizar o token de autenticação gerado para poder utilizar os demais endpoints da api.
 
 Este projeto utiliza o conceito de bearer token como metodo de autenticação.
